@@ -155,7 +155,7 @@ questions = [
                  image_url=FSInputFile('quizphoto/23.png'),
                  additional_url=FSInputFile('addphoto/23.png')),
     QuizQuestion("В какой стране находится самое высокое здание в мире?",
-                 [("Саудовская Аравия", 0), ("Дубай", 1), ("Китай", 0)],
+                 [("Саудовская Аравия", 0), ("ОАЭ", 1), ("Китай", 0)],
                  image_url=FSInputFile('quizphoto/24.png'),
                  additional_url=FSInputFile('addphoto/24.png')),
     QuizQuestion("Какой предмет хранила говорящая голова из поэмы «Руслан и Людмила»?",
@@ -225,14 +225,14 @@ async def process_step(message: Message, state: FSMContext, current_step: int, n
     else:
         await message.answer("Обрабатываем результаты ⏳", )
         database.record_completion(user_id=message.from_user.id, score=total_score)
-        await message.answer(f"Ваш результат: {total_score}", reply_markup=ReplyKeyboardRemove())
+        await message.answer(f"Ваш результат: {total_score} из 27", reply_markup=ReplyKeyboardRemove())
         # bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
         # await bot.send_chat_action(chat_id=message.chat.id, action='upload_photo')
-        if total_score >= 12:
+        if total_score >= 22:
             await message.answer(f"{html.bold('Воу, а ты знаток!')} \nТак держать 😎")
-        elif 8 <= total_score <= 11:
+        elif 10 <= total_score <= 21:
             await message.answer(f"{html.bold('Очень неплохо!')} \n👍")
-        elif 4 <= total_score <= 7:
+        elif 4 <= total_score <= 9:
             await message.answer(f"{html.bold('Ты можешь лучше!')}")
         elif total_score < 4:
             await message.answer(f"😞")
@@ -244,7 +244,7 @@ async def command_start(message: Message, state: FSMContext) -> None:
     await state.clear()
     await state.set_state(Quiz.step_fio)
     await message.answer(
-        "Команда ОТП, подготовила тест для тебя.",
+        "Команда ОТП Банка подготовила тест для тебя.",
         reply_markup=ReplyKeyboardRemove()
     )
     await message.answer("Но для начала введи твоё ФИО (например, Иванов Иван Иванович):")
