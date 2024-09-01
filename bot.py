@@ -8,6 +8,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.enums import ParseMode
 
 from handlers.quiz import quiz_router
+from handlers.sender import winner_router
 
 # Bot token and Redis URL
 TOKEN = '7383073266:AAGkgfjy6kuwZCxWw50odRB0LqSwMjjCzoc'
@@ -20,6 +21,7 @@ dp = Dispatcher()
 async def main(tg_bot) -> None:
     dp.include_routers(
         quiz_router,
+        winner_router
     )
     await dp.start_polling(tg_bot)
 

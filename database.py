@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 
 import pymongo
 from datetime import datetime
@@ -42,5 +42,18 @@ class Database:
         best_user = cursor.next()
         return best_user.get("user_id"), best_user.get("score"), best_user.get("completion_time")
 
+    def aggregate_users(self) -> List[any]:
+        cursor = self.results.aggregate(
+            [{"$group": {"_id": "$score", "results": {"$push": "$user_id"}}}, {"$sort": {"_id": -1}}])
+        return list(cursor)
+
+    def pick_winners(self, user_id) -> None:
+        self.users.update_one(
+            {"user_id": user_id},
+            {"$set": {'winner': 1}},
+            upsert=True
+        )
 
 database = Database("Street")
+
+
