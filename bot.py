@@ -20,8 +20,8 @@ dp = Dispatcher()
 
 async def main(tg_bot) -> None:
     dp.include_routers(
-        quiz_router,
-        winner_router
+        winner_router,
+        quiz_router
     )
     await dp.start_polling(tg_bot)
 
